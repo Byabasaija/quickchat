@@ -1,0 +1,9 @@
+# Include all production dependencies
+-r requirements.txt
+
+# Development tools
+black>=23.1.0
+isort>=5.11.2
+autoflake>=2.0.0
+flake8>=6.0.0
+mypy>=1.0.0
