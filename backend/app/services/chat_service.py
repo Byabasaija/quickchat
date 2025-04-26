@@ -8,15 +8,26 @@ api_key = settings.LLM_API_KEY
 class ChatService:
     def __init__(self, api_key: str):
         genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel('gemini-2.0-flash')
+        self.model = genai.GenerativeModel(settings.MODEL_NAME)
 
     def _improve_prompt(self, question: Question) -> str:
         """Formats prompt for rewriting casual sentences professionally."""
         user_query = question.query.strip()
         prompt = (
-            "Rewrite the following sentence in a professional and formal tone. "
-            "Correct any grammatical issues and improve clarity:\n\n"
-            f"Original: {user_query}"
+            "You are a professional writing assistant specializing in transforming casual language into formal, professional text."
+
+            "Your task is to rewrite the following casual text into a professional version while:"
+            "- Maintaining the original meaning and key information"
+            "- Eliminating slang, colloquialisms, and informal expressions"
+            "- Using appropriate business/professional vocabulary"
+            "- Improving sentence structure and grammar"
+            "- Ensuring proper punctuation and formatting"
+
+            f"Casual text to rewrite:
+            {user_query}:"
+
+            "Respond with only the rewritten professional text, without explanations or metadata."
+            
         )
         return prompt
 

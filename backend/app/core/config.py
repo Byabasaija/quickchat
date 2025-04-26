@@ -13,13 +13,12 @@ def parse_cors(v: Any) -> list[str] | str:
 
 class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
-    SERVER_NAME: str
-    SERVER_HOST: AnyHttpUrl
     BACKEND_CORS_ORIGINS: Annotated[
         list[AnyHttpUrl] | str, BeforeValidator(parse_cors)
     ] = []
     PROJECT_NAME: str
     LLM_API_KEY: str = secrets.token_urlsafe(32)
+    MODEL_NAME: str
     
     class Config:
         env_file = ".env"
