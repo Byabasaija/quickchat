@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import { Button } from "@/app/components/ui/button"
 import { ScrollArea } from "@/app/components/ui/scroll-area"
 import { Input } from "@/app/components/ui/input"
@@ -11,50 +11,67 @@ import remarkGfm from "remark-gfm"
 
 export const Chat = () => {
   const [query, setQuery] = useState("")
-  const [submitted, setSubmitted] = useState<string | null>(null)
-  const { askQuestion, answer, loading } = useChatContext()
+  const { askQuestion, currentChat, loading } = useChatContext()
+  const scrollAreaRef = useRef<HTMLDivElement>(null)
+
+  // Scroll to bottom whenever messages change
+  useEffect(() => {
+    if (scrollAreaRef.current) {
+      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight
+    }
+  }, [currentChat?.messages])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!query.trim()) return
 
-    setSubmitted(query)
+    const currentQuery = query
     setQuery("")
-    await askQuestion(query)
+    await askQuestion(currentQuery)
   }
 
   return (
     <main className="flex-1 flex flex-col">
-     <ScrollArea className="flex-1 p-6 overflow-y-auto">
-      <div className="flex justify-center mb-6">
-        <div className="bg-white p-4 rounded-xl shadow-md text-center w-fit max-w-[80%]">
-          How can I help you today?
-        </div>
-      </div>
-
-      {submitted && (
-        <div className="bg-blue-100 p-4 rounded-xl shadow-md self-end w-fit max-w-[80%] mb-4">
-          {submitted}
-        </div>
-      )}
-
-      {loading && (
-        <div className="bg-white p-4 rounded-xl shadow-md w-fit max-w-[80%] italic text-gray-500 animate-pulse mb-4">
-          Thinking...
-        </div>
-      )}
-
-      {answer && !loading && (
-        <div className="bg-white p-6 rounded-xl shadow-md w-fit max-w-[80%] mt-4">
-          <div className="prose prose-sm prose-blue max-w-none space-y-4">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {answer}
-            </ReactMarkdown>
+      <ScrollArea className="flex-1 p-6 overflow-y-auto" ref={scrollAreaRef}>
+        {!currentChat || currentChat.messages.length === 0 ? (
+          <div className="flex justify-center mb-6">
+            <div className="bg-white p-4 rounded-xl shadow-md text-center w-fit max-w-[80%]">
+              How can I help you today?
+            </div>
           </div>
-        </div>
-      )}
-    </ScrollArea>
-
+        ) : (
+          <div className="space-y-6">
+            {currentChat.messages.map((message) => (
+              <div
+                key={message.id}
+                className={`${
+                  message.role === 'user' 
+                    ? 'bg-blue-100 ml-auto' 
+                    : 'bg-white'
+                } p-4 rounded-xl shadow-md w-fit max-w-[80%] ${
+                  message.role === 'user' ? 'ml-auto' : 'mr-auto'
+                }`}
+              >
+                {message.role === 'assistant' ? (
+                  <div className="prose prose-sm prose-blue max-w-none space-y-4">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {message.content}
+                    </ReactMarkdown>
+                  </div>
+                ) : (
+                  message.content
+                )}
+              </div>
+            ))}
+            
+            {loading && (
+              <div className="bg-white p-4 rounded-xl shadow-md w-fit max-w-[80%] italic text-gray-500 animate-pulse mb-4">
+                Thinking...
+              </div>
+            )}
+          </div>
+        )}
+      </ScrollArea>
 
       <form onSubmit={handleSubmit} className="p-4 border-t bg-white">
         <div className="flex items-center gap-2">

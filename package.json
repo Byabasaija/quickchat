@@ -2,18 +2,18 @@
     "name": "quickchat",
     "private": true,
     "workspaces": [
-      "frontend",
-      "shared"
+        "frontend",
+        "shared"
     ],
     "scripts": {
-      "dev:frontend": "cd frontend && npm run dev",
-      "dev:backend": "cd backend && python -m uvicorn app.main:app --reload --port 8000",
-      "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
-      "build:frontend": "cd frontend && npm run build",
-      "start:frontend": "cd frontend && npm run start",
-      "start:backend": "cd backend && python -m uvicorn app.main:app --port 8000"
+        "dev:frontend": "cd frontend && npm run dev",
+        "dev:backend": "cd backend && python -m uvicorn app.main:app --reload --port 8000",
+        "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+        "build:frontend": "cd frontend && npm run build",
+        "start:frontend": "cd frontend && npm run start",
+        "start:backend": "cd backend && python -m uvicorn app.main:app --port 8000"
     },
     "devDependencies": {
-      "concurrently": "^8.0.1"
+        "concurrently": "^8.0.1"
     }
-  }
+}
