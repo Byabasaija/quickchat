@@ -6,6 +6,10 @@ A full-stack application that transforms casual sentences into professional, pol
 ### Mobile view
 ![Quickchat-Mobile](/shot-mobile.png)
 
+<a href="https://quickchat-1-5h6r.onrender.com/" target="_blank" style="font-size: 24px;">
+🔴 Live demo</a>
+
+
 ## 📋 Features
 
 - **Instant Rewrites**: Transform casual text into professional language in seconds
