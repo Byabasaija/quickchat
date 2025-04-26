@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import { ChatProvider } from "./context/ChatContext";
 
 export const metadata: Metadata = {
-  title: "FastAPI/React starter stack",
-  description: "Accelerate your next web development project",
+  title: "Quickchat - Your AI Writing Assistant",
+  description: "Transforms casual sentences into professional, polished language using AI",
 };
 
 export default function RootLayout({

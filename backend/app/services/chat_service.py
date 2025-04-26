@@ -1,4 +1,3 @@
-# app/services/chat_service.py
 import google.generativeai as genai
 from app.schemas.chat import Question
 from app.core.config import settings
@@ -23,15 +22,12 @@ class ChatService:
             "- Improving sentence structure and grammar"
             "- Ensuring proper punctuation and formatting"
 
-            f"Casual text to rewrite:
-            {user_query}:"
+            f"Casual text to rewrite:\n"
+            f"{user_query}\n\n"
 
             "Respond with only the rewritten professional text, without explanations or metadata."
-            
         )
         return prompt
-
-
 
     async def ask_llm(self, question: Question) -> str | None:
         try:

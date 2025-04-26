@@ -3,19 +3,21 @@
 import React from "react";
 import { Button } from "@/app/components/ui/button";
 import { ScrollArea } from "@/app/components/ui/scroll-area";
-import { MessageSquarePlus, Trash2 } from "lucide-react";
+import { MessageSquarePlus, Trash2, X } from "lucide-react";
 import { useChatContext, ChatSession } from "@/app/context/ChatContext";
 import { formatDistanceToNow } from "date-fns";
 
-export const Sidebar = () => {
+export const Sidebar = ({ onClose }: { onClose?: () => void }) => {
   const { chats, createNewChat, currentChat, setCurrentChat, deleteChat } = useChatContext();
 
   const handleNewChat = () => {
     createNewChat();
+    if (onClose) onClose(); // Close sidebar on mobile after creating a new chat
   };
 
   const handleChatSelect = (chat: ChatSession) => {
     setCurrentChat(chat);
+    if (onClose) onClose(); // Close sidebar on mobile after selecting a chat
   };
 
   const handleDeleteChat = (e: React.MouseEvent, chatId: string) => {
@@ -34,16 +36,30 @@ export const Sidebar = () => {
   };
 
   return (
-    <aside className="w-72 bg-white border-r border-gray-200 flex flex-col">
-      <div className="p-4 border-b">
+    <aside className="flex flex-col h-full">
+      <div className="p-4 border-b flex items-center justify-between">
         <Button 
-          className="w-full flex items-center justify-center gap-2" 
+          className="flex-1 flex items-center justify-center gap-2" 
           onClick={handleNewChat}
         >
           <MessageSquarePlus className="h-4 w-4" />
           New Chat
         </Button>
+        
+        {/* Close button only shown on mobile */}
+        {onClose && (
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="md:hidden ml-2" 
+            onClick={onClose}
+            aria-label="Close sidebar"
+          >
+            <X className="h-5 w-5" />
+          </Button>
+        )}
       </div>
+      
       <ScrollArea className="flex-1 overflow-y-auto">
         {chats.length === 0 ? (
           <div className="p-4 text-sm text-gray-500 text-center">

@@ -1,8 +1,10 @@
 # Quickchat
 
 A full-stack application that transforms casual sentences into professional, polished language using AI. Built with Next.js, FastAPI, and LLM integration.
-
-![Professional Sentence Rewriter](/shot.png)
+### Desktop view
+![Quickchat-Desktop](/shot-desktop.png)
+### Mobile view
+![Quickchat-Mobile](/shot-mobile.png)
 
 ## 📋 Features
 
