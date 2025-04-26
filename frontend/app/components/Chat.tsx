@@ -36,7 +36,8 @@ export const Chat = () => {
         {!currentChat || currentChat.messages.length === 0 ? (
           <div className="flex justify-center mb-6">
             <div className="bg-white p-4 rounded-xl shadow-md text-center w-fit max-w-[80%]">
-              How can I help you today?
+              <h1 className="text-xl font-bold mb-2">How can I help you today?</h1>
+              <p className="text-sm italic text-gray-600">I will help you with rewritting any sentences in a formal and grammatically formart and professional tone.</p>
             </div>
           </div>
         ) : (
